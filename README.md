@@ -33,7 +33,7 @@ in [protocol.go](https://github.com/markdingo/go-websocket-demo/blob/main/protoc
 
 The main goal of this package is to demonstrate a performant and responsive websocket
 server implemented in go. At the time of writing the whole system including client, server
-and support modules adds up to less than 400 executable lines of code yet the server
+and support modules adds up to approximately 400 executable lines of code yet the server
 efficiently handles multiple clients, includes an extensible framework which allows the
 easy addition of new message types and actively deals with unresponsive clients.
 
