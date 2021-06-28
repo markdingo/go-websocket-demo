@@ -23,10 +23,11 @@ continue to consume resources unnecessarily.
 
 The second reason for using application-level Pings is to demonstrate message demuxing
 with json as the serialization format. This is not an overly complex problem but there are
-nuances due to the nature of go and the requirements of the `encoding/json` package. In
-short, if you just exchange pure json you need to construct the message struct before you
-know the message type... Thus the exchanged messages include struct identifiers. More
-details can be found in [protocol.go](https://github.com/markdingo/go-websocket-demo/blob/main/protocol.go).
+nuances due to the nature of go and the requirements of the
+[encoding/json](https://golang.org/pkg/encoding/json/) package. In short, if you just
+exchange pure json you need to construct the message struct before you know the message
+type... Thus the exchanged messages include struct identifiers. More details can be found
+in [protocol.go](https://github.com/markdingo/go-websocket-demo/blob/main/protocol.go).
 
 ### Purpose
 
@@ -45,8 +46,9 @@ no units tests and this code has never been used in earnest.
 
 Assuming a Unix platform:
 
-1. `git clone git@github.com:markdingo/go-websocket-demo.git` or if I've made the repo
-public possibly `go get -u github.com/markdingo/go-websocket-demo`
+1. Try `git clone git@github.com:markdingo/go-websocket-demo.git`
+
+1. Or if the repo is public try `go get -u github.com/markdingo/go-websocket-demo`
 
 1. Build the client and server with `'make'`
 

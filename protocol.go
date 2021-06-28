@@ -17,17 +17,17 @@ import (
 // message name, e.g.: `TicketRequest:{"Id": "SomeID"...`
 //
 // Conversely the decoder peels off the message name and uses it to find the matching
-// struct constructor to create the struct needed by json.Unmarshal() for the remaining
-// payload.
+// struct constructor to create the struct needed by json.Unmarshal() to decode the
+// remaining payload.
 
 // messageConstructorFunc is a function which creates a new, empty message struct
-// suitable for json.Unmarshal. It is index on the struct name by the registry.
+// suitable for json.Unmarshal. It's indexed on the struct name by the registry.
 type messageConstructorFunc func() Message
 
 // registry associates message names with struct constructors
 var registry = make(map[string]messageConstructorFunc)
 
-// register associates a message name with a message constructor. The registry is used by
+// Register associates a message name with a message constructor. The registry is used by
 // Decode to construct and deserialize the message into the matching struct.
 func Register(name string, f messageConstructorFunc) {
 	registry[name] = f

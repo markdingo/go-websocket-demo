@@ -18,7 +18,7 @@ func init() {
 	Register("Pong", func() Message { return new(Pong) })
 }
 
-// TickerRequest is sent by the client identify which symbols tickers it cares about.
+// TickerRequest is sent by the client identify which tickers it cares about.
 type TickerRequest struct {
 	Id      string   // A printable identifier created by the client to help self-identify
 	Tickers []string // List of tickers the client wants to be notified about
@@ -56,7 +56,9 @@ func (t *Ping) Name() string {
 }
 
 // Pong is the server response to a Ping message. It indicates that the server is still
-// responsive.
+// responsive. It contains a copy of the Ping message data so that the client can
+// calculate latency and determine whether Pong messages are being lost (which frankly
+// should be impossible with a TCP connection).
 type Pong struct {
 	Sequence int
 	Seconds  int64

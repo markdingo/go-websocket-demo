@@ -96,7 +96,7 @@ func askServer(myId, serverURL string, tickers []string) (err error) {
 }
 
 // pingPong is started as a separate go routine which exchanges application-level Ping
-// messages with the server until the context tells it to disappear. Any i/o error result
+// messages with the server until the context tells it to disappear. Any i/o error results
 // in cancelling the parent context which notifies all interested parties - in this case
 // really just the reader loop. The big-picture is that the websocket will fail if the
 // ping exchange fails.

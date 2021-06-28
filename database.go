@@ -18,7 +18,7 @@ func (t *Ticker) String() string {
 	return fmt.Sprintf("%s: $%0.2f", t.Symbol, t.Price)
 }
 
-// Database is a fake implementation of a stock exchange feed. It contains Tickers which
+// Database is a mock implementation of a stock exchange feed. It contains Tickers which
 // are simply symbols with prices.
 type Database struct {
 	mu   sync.Mutex // Protects map
