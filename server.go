@@ -4,17 +4,17 @@ package main
 // ticker names. Whenever any of the tickers change, a message is sent back to the client
 // with the change details.
 //
-// The ticker database is similated. It is pre-populated here and also includes any news
-// symbols that the client requests. It is periodically and randomly updated by a
-// background go-routine.
+// The ticker database is mocked. It is pre-populated here and also includes any new
+// symbols that the client requests - this makes the demo easier. The database is
+// periodically and randomly updated by a background go-routine.
 //
-// The server responds to application-level ping messages.
+// The server responds to application-level ping messages with a pong message.
 //
 // The most salient feature is that the server notices when clients become unresponsive
 // due to a lack of ping messages. Similarly, the client notices when the server becomes
-// unresponsive due to a lack of pong response. Note that these are application level ping
-// and pong messages, not the websocket ones because pong is not exposed in the websocket
-// package.
+// unresponsive due to a lack of pong responses. Note that these are application level
+// ping and pong messages, not the websocket ones because pong is not exposed in the
+// websocket package.
 
 import (
 	"context"
@@ -54,7 +54,7 @@ func main() {
 	DB.Add("QAN.AX", 4.55)
 	DB.Add("WPL.AX", 22.45)
 
-	// Run the fake DB updater every couple of seconds followed by the notifier
+	// Run the mock DB updater every couple of seconds followed by the notifier
 	go func() {
 		for {
 			time.Sleep(databaseUpdateFrequency)
@@ -62,7 +62,7 @@ func main() {
 		}
 	}()
 
-	// Defined the websocket HTTP handler for all inbound connections
+	// Define the websocket HTTP handler for all inbound connections
 	fn := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.Println("Connect from", r.RemoteAddr)
 		conn, err := websocket.Accept(w, r, nil)
@@ -79,20 +79,25 @@ func main() {
 	log.Fatal(http.ListenAndServe(args[0], fn))
 }
 
-// runClient consumes message sent by the client. It is started as a separate go routine
-// via the http.HandlerFunc setup.
+// runClient is started as a separate go routine for each client connection via the
+// http.HandlerFunc. It consumes message sent by the client.
 //
 // The read timeout is set to two times the ping interval which should give clients plenty
-// of time to get a ping to us, even if they're busy. If no message arrives within that
-// time, the client is considered unresponsive and discarded.
+// of time to get a ping to us, even if they're busy. If no ping message arrives within
+// that time the client is considered unresponsive and discarded.
 //
-// Notification messages sent back to the client are handled by the Notifier.
+// Notification messages sent back to the client are handled by the Notifier rather than
+// this function.
 //
-// Strictly, a client need not send a TickerRequest message at all and simple Ping the
-// server; or it can send multiple TickerRequest messages to replace eariler tickers of
-// interest.
+// Strictly, a client need not send a TickerRequest message at all and can simple Ping the
+// server; alternatively it can send multiple TickerRequest messages to replace eariler
+// tickers of interest. We're not fussed either way.
 func runClient(NF *Notifier, DB *Database, conn *websocket.Conn) {
 	var client *Client // Notifier correctly deals with a nil Client
+	defer func() {
+		NF.Delete(client) // Refer to last value of client, not current
+	}()
+
 	cid := ""
 	for {
 		ctx, cancel := context.WithTimeout(context.Background(), pingpongInterval*2)
@@ -129,6 +134,4 @@ func runClient(NF *Notifier, DB *Database, conn *websocket.Conn) {
 			break
 		}
 	}
-
-	NF.Delete(client)
 }
