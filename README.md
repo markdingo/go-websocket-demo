@@ -56,7 +56,8 @@ Assuming a Unix platform:
 
 1. Run `'./client ws://localhost:8080 AAPL SPY'` in another terminal
 
-1. Repeat step 3 as many times as you wish in new terminal windows
+1. Repeat the previous step as many times as you wish in a new terminal to create a swarm
+of clients. The server should easily handle 100s if not 1000s of clients.
 
 1. If you wait for over a minute you'll see the client exchange Ping messages with the server
 and print the latency of that message exchange
