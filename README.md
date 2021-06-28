@@ -26,7 +26,7 @@ with json as the serialization format. This is not an overly complex problem but
 nuances due to the nature of go and the requirements of the `encoding/json` package. In
 short, if you just exchange pure json you need to construct the message struct before you
 know the message type... Thus the exchanged messages include struct identifiers. More
-details can be found in `protocol.go`.
+details can be found in [protocol.go](https://github.com/markdingo/go-websocket-demo/blob/main/protocol.go).
 
 ### Purpose
 
