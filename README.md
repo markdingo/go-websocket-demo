@@ -58,13 +58,15 @@ Assuming a Unix platform:
 
 1. Repeat step 3 as many times as you wish in new terminal windows
 
-1. If you wait for over a minute you'll see that client exchange Ping messages with the server
+1. If you wait for over a minute you'll see the client exchange Ping messages with the server
 and print the latency of that message exchange
 
 1. Simulate a stalled server by typing `^Z` in the server terminal and watch the clients
 eventually determine that the server is unresponsive and attempt reconnections. The Ping
 timeout is set to one minute so clients will notice an unresponsive server within two
-minutes. Modify `config.go` if you want to change this or other timeout values.
+minutes. Modify
+[config.go](https://github.com/markdingo/go-websocket-demo/blob/main/config.go) if you
+want to change this or other timeout values.
 
 1. Revivify the server by typing `fg` in the server terminal and watch the clients
 automatically re-connect and continue receiving stock symbol notifications
